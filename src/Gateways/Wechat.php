@@ -368,4 +368,30 @@ class Wechat implements GatewayApplicationInterface
             true
         );
     }
+    
+    /**
+     * 请求单次分账
+     * 服务商代子商户发起添加分账接收方请求，后续可通过发起分账请求将结算后的钱分到该分账接收方
+     * @author yansongda <me@yansongda.cn>
+     *
+     * @param array $order
+     *
+     * @throws GatewayException
+     * @throws InvalidSignException
+     * @throws \Yansongda\Pay\Exceptions\InvalidArgumentException
+     *
+     * @return Collection
+     */
+    public function profitsharingaddreceiver($order): Collection
+    {
+        $this->payload = Support::filterPayload($this->payload, $order);
+
+        Log::info('Starting To reverse An Wechat profitsharing', [$this->gateway, $this->payload]);
+
+        return Support::requestApi(
+            'pay/profitsharingaddreceiver',
+            $this->payload,
+            true
+        );
+    }
 }
